@@ -1,0 +1,100 @@
+Grading revision r10200 by dkaraca2, dated 2015-09-14 03:13:43.000050879 -0500 CDT
+Monad Autograder
+Testing mp2 at 2015-09-15 00:21:18
+
+"What is written without effort is, in general, read without pleasure." ~ Samuel Johnson
+
+Setting up test environment...
+Compiling...
+================================================================
+scene.cpp:16:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                xcoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:17:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                ycoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:45:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                xcoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:46:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                ycoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:153:48: warning: comparison of integers of different signs: 'unsigned long' and 'int' [-Wsign-compare]
+                if((xcoordinate[i] + imageArray[i]->width()) > width) width = xcoordinate[i] + imageArray[i]->width();  
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^ ~~~~~
+scene.cpp:154:49: warning: comparison of integers of different signs: 'unsigned long' and 'int' [-Wsign-compare]
+                if((ycoordinate[i] + imageArray[i]->height()) > height) height = ycoordinate[i] + imageArray[i]->height();  
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^ ~~~~~~
+6 warnings generated.
+scene.cpp:16:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                xcoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:17:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                ycoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:45:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                xcoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:46:20: warning: implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+                ycoordinate[i] = NULL;
+                               ~ ^~~~
+                                 0
+scene.cpp:153:48: warning: comparison of integers of different signs: 'unsigned long' and 'int' [-Wsign-compare]
+                if((xcoordinate[i] + imageArray[i]->width()) > width) width = xcoordinate[i] + imageArray[i]->width();  
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^ ~~~~~
+scene.cpp:154:49: warning: comparison of integers of different signs: 'unsigned long' and 'int' [-Wsign-compare]
+                if((ycoordinate[i] + imageArray[i]->height()) > height) height = ycoordinate[i] + imageArray[i]->height();  
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^ ~~~~~~
+6 warnings generated.
+
+
+Running tests...
+================================================================
+InvertColorsEven . . . . . . . . . [8 pts] - passed
+FlipLeftEven . . . . . . . . . . . [4 pts] - passed
+FlipLeftOdd  . . . . . . . . . . . [4 pts] - passed
+AdjustBrightnessEven . . . . . . . [3 pts] - passed
+AdjustBrightnessEven2  . . . . . . [3 pts] - passed
+AdjustBrightnessEven3  . . . . . . [3 pts] - passed
+ImageMakefile  . . . . . . . . . . [5 pts] - FAILED
+Valgrind1 (asan) . . . . . . . . . [5 pts] - passed
+AddPictureValidIndex . . . . . . . [2 pts] - passed
+AddPictureInvalidIndex . . . . . . [2 pts] - FAILED
+ImageAssignmentOperator  . . . . . [2 pts] - passed
+SceneGetPictureInvalidIndex  . . . [2 pts] - FAILED
+SceneChangeMaxLayersLarger . . . . [2 pts] - FAILED
+SceneChangeMaxLayersSmaller (asan) [1 pts] - FAILED
+SceneChangeMaxLayersInvalidChange  [2 pts] - passed
+SceneCopyCtor  . . . . . . . . . . [2 pts] - passed
+SceneCopyCtor2 . . . . . . . . . . [2 pts] - passed
+SceneAssignmentOperator  . . . . . [2 pts] - passed
+SceneAssignmentOperator2 . . . . . [2 pts] - passed
+SceneChangeLayer . . . . . . . . . [2 pts] - FAILED
+SceneChangeLayerInvalid  . . . . . [2 pts] - FAILED
+SceneDrawScene . . . . . . . . . . [3 pts] - passed
+SceneDrawScene2  . . . . . . . . . [3 pts] - passed
+SceneDrawScene3  . . . . . . . . . [3 pts] - FAILED
+SceneDrawScene4  . . . . . . . . . [3 pts] - FAILED
+SceneDrawSceneChangeLayer  . . . . [2 pts] - FAILED
+SceneDrawSceneDeletePicture  . . . [2 pts] - passed
+SceneDrawSceneTranslate  . . . . . [2 pts] - passed
+SceneDrawSceneTranslate2 . . . . . [2 pts] - passed
+SceneTranslateInvalid  . . . . . . [2 pts] - FAILED
+SceneTranslateInvalid2 . . . . . . [1 pts] - passed
+SceneDeletePictureInvalid  . . . . [2 pts] - FAILED
+Valgrind2 (asan) . . . . . . . . . [5 pts] - passed
+Valgrind3 (asan) . . . . . . . . . [5 pts] - FAILED
+SceneMakefile  . . . . . . . . . . [5 pts] - passed
+
+
+Total score...
+================================================================
+TOTAL SCORE: 67
+
