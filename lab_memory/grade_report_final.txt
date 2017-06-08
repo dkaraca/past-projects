@@ -1,0 +1,24 @@
+Grading revision r9845 by dkaraca2, dated 2015-09-13 21:30:58.000979267 -0500 CDT
+Monad Autograder
+Testing lab_memory at 2015-09-14 01:13:33
+
+"If I had a 3D Reese's chocolate printer I would use that thing all the time always." ~ Chase Geigle
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+test_constructor (asan) [5 pts]  - passed
+test_allocate (asan)  . [5 pts]  - passed
+test_printrooms (asan)  [20 pts] - passed
+test_any_output . . . . [30 pts] - passed
+test_correct_output . . [40 pts] - passed
+
+
+Total score...
+================================================================
+TOTAL SCORE: 100
+
