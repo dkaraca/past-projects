@@ -1,0 +1,151 @@
+// **************************************************************
+// *		   
+// *  quadtree.cpp
+// *		   
+// *  Quadtree class
+// *		   
+// *  CS 225 Spring 2008
+// *		   
+// **************************************************************
+
+#include "quadtree.h"
+
+Quadtree::Quadtree(){
+	root = NULL;
+	res = 0;
+}
+		
+Quadtree::Quadtree(PNG const &source, int resolution){
+	root = NULL;
+	res = resolution;
+	buildTree(source,resolution);
+}
+		
+Quadtree::Quadtree(Quadtree const &other){
+	root = copy(other.root);
+	res = other.res;
+}
+	
+Quadtree::~Quadtree(){
+	clear(root);
+	root = NULL;
+}
+		
+Quadtree const& Quadtree::operator=(Quadtree const &other){
+	if(this != &other){
+		clear(root);
+		root = copy(other.root);
+		res = other.res;
+	}
+	return *this;
+		
+}
+		
+void Quadtree::buildTree(PNG const &source, int resolution){
+	clear(root);
+	res = resolution;
+	root = buildTreeHelper(source, 0, 0, resolution);
+}
+
+Quadtree::QuadtreeNode* Quadtree::buildTreeHelper(const PNG& source, int xCoord, int yCoord, int distance)const{
+	if(distance == 1){
+		QuadtreeNode* r1 = new QuadtreeNode;
+		r1->element = *source(xCoord,yCoord);
+		r1->nwChild = NULL;
+		r1->neChild = NULL;
+		r1->swChild = NULL;
+		r1->seChild = NULL;
+		return r1;
+	}
+	QuadtreeNode* r2 = new QuadtreeNode;
+	r2->nwChild = buildTreeHelper(source, xCoord, yCoord, distance/2);
+	r2->neChild = buildTreeHelper(source, xCoord + distance/2, yCoord, distance/2);
+	r2->swChild = buildTreeHelper(source, xCoord, yCoord + distance/2, distance/2);
+	r2->seChild = buildTreeHelper(source, xCoord + distance/2, yCoord + distance/2, distance/2);
+	r2->element.red = (r2->nwChild->element.red + r2->neChild->element.red + r2->swChild->element.red + r2->seChild->element.red) / 4;
+	r2->element.green = (r2->nwChild->element.green + r2->neChild->element.green + r2->swChild->element.green + r2->seChild->element.green) / 4;
+	r2->element.blue = (r2->nwChild->element.blue + r2->neChild->element.blue + r2->swChild->element.blue + r2->seChild->element.blue) / 4;
+	return r2;
+}
+		
+RGBAPixel Quadtree::getPixel(int x, int y) const{
+	if(x >= res || y >= res || res == 0) return RGBAPixel();
+	return getPixelHelper(root,x,y,0,0,res);
+}
+		
+RGBAPixel Quadtree::getPixelHelper(Quadtree::QuadtreeNode* r, int xCoord, int yCoord, int distanceX, int distanceY, int distance)const{
+	if(r == NULL) return RGBAPixel();
+
+	if(r->nwChild == NULL || r->neChild == NULL || r->swChild == NULL || r->seChild == NULL) return r->element;
+	
+	if(xCoord < distanceX + distance/2 && yCoord >= distanceY + distance/2) return getPixelHelper(r->swChild,xCoord,yCoord,distanceX,distanceY+distance/2,distance/2);
+	else if(xCoord >= distanceX + distance/2 && yCoord >= distanceY + distance/2) return getPixelHelper(r->seChild,xCoord,yCoord,distanceX+distance/2,distanceY+distance/2,distance/2);
+	else if(xCoord < distanceX + distance/2 && yCoord < distanceY + distance/2) return getPixelHelper(r->nwChild,xCoord,yCoord,distanceX,distanceY,distance/2);
+	else if(xCoord >= distanceX + distance/2 && yCoord >= distanceY + distance/2) return getPixelHelper(r->neChild,xCoord,yCoord,distanceX+distance/2,distanceY,distance/2);
+	
+	return RGBAPixel();
+	
+}
+
+PNG Quadtree::decompress() const{
+	if(root == NULL || res == 0) return PNG();
+	PNG r = PNG(res,res);
+	decompressHelper(root,r,0,0,res);
+	return r;
+}
+
+void Quadtree::decompressHelper(QuadtreeNode* r, PNG& image, int xCoord, int yCoord, int distance)const{
+	if(r->nwChild == NULL || r->neChild == NULL || r->swChild == NULL || r->seChild == NULL){
+		for(int i = xCoord; i<xCoord+distance; i++){
+		 for(int j = yCoord; j<yCoord+distance; j++){
+			*(image(i,j)) = r->element;
+		 }
+		}
+	return;
+	}
+	else{
+		decompressHelper(r->nwChild, image, xCoord, yCoord, distance/2);
+		decompressHelper(r->neChild, image, xCoord+distance/2, yCoord, distance/2);
+		decompressHelper(r->swChild, image, xCoord, yCoord+distance/2, distance/2);
+		decompressHelper(r->seChild, image, xCoord+distance/2, yCoord+distance/2, distance/2);
+	}
+}
+
+void Quadtree::clear(Quadtree::QuadtreeNode* c){
+	if(c == NULL) return;
+	clear(c->nwChild);
+	clear(c->neChild);
+	clear(c->swChild);
+	clear(c->seChild);
+	delete c;
+}
+		
+Quadtree::QuadtreeNode* Quadtree::copy(const Quadtree::QuadtreeNode* r){
+	if(r == NULL) return NULL;
+	
+	QuadtreeNode* newRoot = new QuadtreeNode;
+	newRoot->element = r->element;
+	newRoot->nwChild = copy(r->nwChild);
+	newRoot->neChild = copy(r->neChild);
+	newRoot->swChild = copy(r->swChild);
+	newRoot->seChild = copy(r->seChild);
+	return newRoot;
+}
+
+void Quadtree::clockwiseRotate(){
+
+}
+		
+void Quadtree::prune(int tolerance){
+
+}
+
+int Quadtree::pruneSize(int tolerance)const{
+	return 0;
+}
+
+int Quadtree::idealPrune(int numLeaves)const{
+	return 0;
+}
+
+

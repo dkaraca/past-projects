@@ -1,0 +1,75 @@
+Grading revision r43938 by tolar2, dated 2015-11-17 00:59:48.000716022 -0600 CST
+Monad Autograder
+Testing mp6 at 2015-11-18 00:18:37
+
+"The cheapest, fastest, and most reliable components of a computer system are those that aren't there." ~ Gordon Bell
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+testSmallerDimVal . . . . . [3 pts]  - passed
+testShouldReplace . . . . . [3 pts]  - passed
+testLinearCtor_1_10 . . . . [4 pts]  - passed
+testLinearCtor_3_31 . . . . [4 pts]  - passed
+testLinearCtor_2_14 . . . . [4 pts]  - passed
+testLinearNNS_1_10  . . . . [4 pts]  - passed
+testLinearNNS_3_31  . . . . [4 pts]  - passed
+testLinearNNS_2_14  . . . . [4 pts]  - passed
+testDeceptiveNNOneLevelCtor [4 pts]  - passed
+testDeceptiveNNOneLevelNNS  [3 pts]  - passed
+testMinesCtor . . . . . . . [3 pts]  - passed
+testMinesNNS  . . . . . . . [4 pts]  - passed
+testDeceptiveMinesCtor  . . [3 pts]  - passed
+testDeceptiveMinesNNS . . . [5 pts]  - passed
+testTieBreakingCtor . . . . [3 pts]  - passed
+testTieBreakingNNS  . . . . [3 pts]  - passed
+testLeftRecurseCtor . . . . [3 pts]  - passed
+testLeftRecurseNNS  . . . . [3 pts]  - passed
+testRandom1Ctor . . . . . . [3 pts]  - passed
+testRandom1NNS  . . . . . . [3 pts]  - passed
+testRandom2Ctor . . . . . . [3 pts]  - passed
+testRandom2NNS  . . . . . . [3 pts]  - passed
+testCheckeredMosaic . . . . [12 pts] - FAILED: unit_tests.cpp:482: ERROR: Returned NULL MosaicCanvas when shouldn't have
+testPrimaryColorMosaic  . . [6 pts]  - FAILED: unit_tests.cpp:516: ERROR: Returned NULL MosaicCanvas when shouldn't have
+testRandomMosaic  . . . . . [6 pts]  - FAILED: unit_tests.cpp:578: ERROR: Returned NULL MosaicCanvas when shouldn't have
+
+
+Total score...
+================================================================
+TOTAL SCORE: 76
+
+
+
+Detailed test output...
+================================================================
+----------------------------------------------------------------
+testCheckeredMosaic [12 points]
+Result: FAILED: unit_tests.cpp:482: ERROR: Returned NULL MosaicCanvas when shouldn't have
+Took 1ms (5000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+testPrimaryColorMosaic [6 points]
+Result: FAILED: unit_tests.cpp:516: ERROR: Returned NULL MosaicCanvas when shouldn't have
+Took 0ms (5000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+testRandomMosaic [6 points]
+Result: FAILED: unit_tests.cpp:578: ERROR: Returned NULL MosaicCanvas when shouldn't have
+Took 0ms (5000ms timeout)
+Output:
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+Total score...
+================================================================
+TOTAL SCORE: 76
+

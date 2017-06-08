@@ -1,0 +1,272 @@
+/* Your code here! */
+#include "maze.h"
+
+SquareMaze::SquareMaze(){
+	h = 0;
+	w = 0; 
+	exit = -1;
+	rightWalls.clear();
+	downWalls.clear();
+}
+
+void SquareMaze::makeMaze(int width, int height){
+	if(downWalls.empty() == false)
+		downWalls.clear();
+	if(rightWalls.empty() == false)
+		rightWalls.clear();	
+	
+	w = width;
+	h = height;
+	int size = h*w;
+	int edges = 0;
+	DisjointSets cells;
+	cells.addelements(size);
+	for(int i = 0; i<size; i++){
+		rightWalls.push_back(true);
+		downWalls.push_back(true);
+	}
+	
+	while(edges < (size-1)){
+		int wall = rand() % size; //between 0 and size
+		int nCell = rand() % 2; //between 0 and 2
+		
+		if(nCell == 0 && xCoord(wall)<(w-1)){
+		 if(cells.find(wall) != cells.find(wall+1)){
+			setWall(xCoord(wall), yCoord(wall), 0, false);
+			cells.setunion(wall,wall+1);
+			edges++;
+		 }
+		}
+		if(nCell == 1 && yCoord(wall)<(h-1)){
+		 if(cells.find(wall) != cells.find(wall+w)){
+			setWall(xCoord(wall), yCoord(wall), 1, false);
+			cells.setunion(wall,wall+w);
+			edges++;
+		 }
+		}
+	}
+	
+	//int exit = cells.find(0);
+	//
+	//
+	
+	//setWall(xCoord(exit),yCoord(exit),1,false);
+
+}
+		
+bool SquareMaze::canTravel(int x, int y, int dir)const{
+	if(dir == 0){
+		if(x>=(w-1))
+			return false;
+		else if(rightWalls[position(x,y)] == false)
+			return true;
+		else
+			return false;
+	}
+	if(dir == 1){
+		if(y>=(h-1))
+			return false;
+		else if(downWalls[position(x,y)] == false)
+			return true;
+		else
+			return false;
+	}
+	if(dir == 2){
+		if(x==0)
+			return false;
+		else if(rightWalls[position(x-1,y)] == false)
+			return true;
+		else
+			return false;
+	}
+	if(dir == 3){
+		if(y==0)
+			return false;
+		else if(downWalls[position(x,y-1)] == false)
+			return true;
+		else
+			return false;
+	}	
+	else
+		return false;
+}
+
+void SquareMaze::setWall(int x, int y, int dir, bool exists){
+	if(dir == 0){
+		if(exists)
+			rightWalls[position(x,y)] = true;
+		else
+			rightWalls[position(x,y)] = false;
+	}
+	else {
+		if(exists)
+			downWalls[position(x,y)] = true;
+		else
+			downWalls[position(x,y)] = false;
+	}
+}
+		
+vector<int> SquareMaze::solveMaze(){
+	vector<int> result;
+	vector<int> parent;
+	vector<int> path;
+	vector<int> l;
+	queue<int> q;
+	q.push(0); //starting point
+	int size = w*h;
+	
+	for(int i = 0; i<size; i++){
+		parent.push_back(-1);
+		path.push_back(-1);
+		l.push_back(-1);
+	}
+	
+	while(q.empty() == false){
+		int curr = q.front();
+		int x = xCoord(curr);
+		int y = yCoord(curr);
+		if(canTravel(x,y,0)){
+			if(l[curr+1]<0){
+				l[curr+1] = l[curr]+1;
+				parent[curr+1] = curr;
+				path[curr+1] = 0;
+				q.push(curr+1);
+			}
+		}
+		if(canTravel(x,y,1)){
+			if(l[curr+w]<0){
+				l[curr+w] = l[curr]+1;
+				parent[curr+w] = curr;
+				path[curr+w] = 1;
+				q.push(curr+w);
+			}
+		}
+		if(canTravel(x,y,2)){
+			if(l[curr-1]<0){
+				l[curr-1] = l[curr]+1;
+				parent[curr-1] = curr;
+				path[curr-1] = 2;
+				q.push(curr-1);
+			}
+		}
+		if(canTravel(x,y,3)){
+			if(l[curr-w]<0){
+				l[curr-w] = l[curr]+1;
+				parent[curr-w] = curr;
+				path[curr-w] = 3;
+				q.push(curr-w);
+			}
+		}
+		q.pop();
+	}
+	
+	int c = -1;
+	for(int i = w*(h-1); i<size; i++){
+		int t = l[i];
+		if(t>c){
+			c = t;
+			exit = i;
+		}
+	}	
+	
+	int tmp = exit;
+	vector<int> output;
+	while(tmp>0){
+		output.push_back(path[tmp]);
+		tmp = parent[tmp];
+	}
+	
+	while(output.empty() == false){
+		result.push_back(output.back());
+		output.pop_back();
+	}
+	
+	return result;
+			
+}
+	
+PNG* SquareMaze::drawMaze()const{
+	PNG* maze = new PNG(w*10+1,h*10+1);
+	RGBAPixel black(0,0,0);
+	*(*maze)(0,0) = black;
+	for(int i = 10; i<(w*10+1); i++)
+		*(*maze)(i,0) = black;
+	for(int i = 0; i<(h*10+1); i++)
+		*(*maze)(0,i) = black;
+	
+	for(int i = 0; i<w; i++){
+	 for(int j = 0; j<h; j++){
+		if(canTravel(i,j,0) == false){
+			for(int k = 0; k<=10; k++)
+				*(*maze)((i+1)*10,(j*10)+k) = black;
+		}
+		if(canTravel(i,j,1) == false){
+			for(int k = 0; k<=10; k++)
+				*(*maze)((i*10)+k,(j+1)*10) = black;
+		}
+	 }
+	}
+	return maze; 
+}
+
+PNG* SquareMaze::drawMazeWithSolution(){
+	PNG* maze = drawMaze();
+	vector<int> sol = solveMaze();
+	RGBAPixel red(255,0,0);
+	RGBAPixel white(255,255,255);
+	int startX = 5;
+	int startY = 5;
+	
+	int solSize = sol.size();
+	for(int i = 0; i<solSize; i++){
+		if(sol[i] == 0){
+			for(int j = 0; j<=10; j++)
+				*(*maze)(startX+j,startY) = red;
+		startX+=10;
+		}
+		else if(sol[i] == 1){
+			for(int k = 0; k<=10; k++)
+				*(*maze)(startX,startY+k) = red;
+		startY+=10;
+		}
+		else if(sol[i] == 2){
+			for(int l = 0; l<=10; l++)
+				*(*maze)(startX-l,startY) = red;
+		startX-=10;
+		}
+		else if(sol[i] == 3){
+			for(int m = 0; m<=10; m++)
+				*(*maze)(startX,startY-m) = red;
+		startY-=10;
+		}
+	}
+	
+	int x = xCoord(exit);
+	int y = yCoord(exit);
+	for(int i = 1; i<=9; i++)
+		*(*maze)(startX+i,startY) = white;
+
+	return maze;
+	
+}
+
+int SquareMaze::position(int x, int y)const{
+	return (w*y)+x;
+}
+	
+int SquareMaze::xCoord(int z)const{
+	//int x = z; 
+	//x = (int) fmod(z,w);
+	//return x;
+	return (int) z%w;
+}
+			
+int SquareMaze::yCoord(int z)const{
+	//int c = 0;
+	//while(z>=w){
+	//	z-=w;
+	//	c++;
+	//}
+	//return c;
+	return (int) z/w;
+}

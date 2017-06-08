@@ -1,0 +1,41 @@
+/* Your code here! */
+
+#include "dsets.h"
+#include <iostream>
+
+using namespace std;
+
+void DisjointSets::addelements(int num){
+	for(int i = 0; i<num; i++)
+		s.push_back(-1);
+}
+
+int DisjointSets::find(int elem){
+	if(s[elem] <0)
+		return elem;
+	else return find(s[elem]);
+
+}
+
+void DisjointSets::setunion(int a, int b){
+	int r1 = find(a);
+	int r2 = find(b);
+	
+	if(r1 == r2) return;
+	else{
+		int size = s[r1] + s[r2];
+		if(s[r2] <= s[r1]){
+			s[r2] = r1;
+			s[r1] = size;
+		}
+		else{
+			s[r1] = r2;
+			s[r2] = size;
+		}
+	}
+
+}
+
+bool DisjointSets::isBigger(int a, int b){
+	return s[a]>s[b];
+}
