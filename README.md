@@ -1,5 +1,5 @@
 # past-projects
 projects from uiuc classes
 
-Projects/MPs from classes CS125, CS225, CS440 and IE420 are included.
-Source codes and initial test cases are provided by the instructor/university.
+Projects/MPs from past courses and work experiences are included.
+Source codes and initial test cases for MPs are provided by the instructor/university.
